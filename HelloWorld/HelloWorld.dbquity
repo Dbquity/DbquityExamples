@@ -1,0 +1,30 @@
+site HelloWorld
+    location: model.dbquity.com/examples
+    version: 1.0.0
+    description:
+        "Hello World", says Dbquity.
+        Illustrating site, class, invariant, area, and multiline.
+    class Period
+        description:
+            This Period class comprises the Start, Days and End fields to
+            capture an interval of a certain number of days starting and ending
+            at certain dates.
+            It uses the invariant property to declare the formula that ties
+            together these three fields.
+        date Start                  # initializes to today() by default
+        integer Days
+        date End
+            initialization: nil     # works well with the invariant
+                                    # ('nil' means: no value has been entered)
+        # when a user changes one value, Dbquity seeks to update another as
+        # needed to satisfy the invariant
+        invariant:                                    
+            Start + Days = End and Start <= End
+
+    area Welcome
+        Period Meeting
+        text Greeting
+            multiline
+            placeholder:
+                "type a few kind words here, please
+                (you may use emojiis 👌)"
