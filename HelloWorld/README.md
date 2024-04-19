@@ -56,3 +56,6 @@ Once that is done, run the [TestUI](https://model.dbquity.com/#test-ui) and [Go]
 Next, try to interact with the Start, Days and End fields of the Meeting and notice how changing one updates another thanks to the `invariant` property declared on the Period `class`. No need to author three separate pieces of code, one for each field, and keep them consistent.
 
 Thus, this invariant is meant to illustrate a maintainability point about being as declarative as possible.
+
+Cheers  
+*Lars*
