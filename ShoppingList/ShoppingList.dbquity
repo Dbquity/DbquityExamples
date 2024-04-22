@@ -1,42 +1,17 @@
 site ShoppingList
-    location:                   model.dbquity.com/examples
-    version:                    1.0.0
-    area Setup
-        importance:             additional
-        entity Unit
-            collection:         Units
-            text Name
-                importance:     promoted
-            identity:           Name
-            text Description
-                multiline
-            decimal DefaultAmount
-        entity Item
-            collection:         Items
-            text Name
-                importance:     promoted
-            identity:           Name
-            text Description
-                multiline
-            decimal DefaultAmount
-                default:        DefaultUnit.DefaultAmount
-            link DefaultUnit
-                entity:         Unit
     area Shopping
+        entity Shop
+            collection: Shops
+            text Name
+            identity: Name
+        entity Item
+            collection: Items
+            text Name
+            identity: Name
         entity List
-            importance:         promoted
-            collection:         Lists
-            decimal Progress
-                percent
-                expression:
-                    if (n: (tobuy: List@ToBuy).count()) then
-                        (100 * tobuy.count(Fulfillment >= Amount) / n)
+            collection: Lists
+            link Shop
         association ToBuy
             end List
             end Item
-                multiplicity:   1..*
-            decimal Amount
-                default:        Item.DefaultAmount
-            link Unit
-                default:        Item.DefaultUnit
-            decimal Fulfillment
+                multiplicity: 1..*
