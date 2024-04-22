@@ -8,4 +8,4 @@ Any language needs a *Hello World* example - the Dbquity Modeling Language diffe
 Introducing `site`, `area`, `class`, `field`, and `invariant`.
 
 ## [ShoppingList](ShoppingList/README.md)
-Introducing `entity` and `association`. Diagramming a model. Exporting and importing data.
+Introducing `entity`, `association`, and `link`.
