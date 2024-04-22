@@ -5,7 +5,23 @@ For the purpose of illustrating key Dbquity concepts, in this example we want to
 In Dbquity terms, we want a collection of Lists where each List is associated to one or more Item entities, and each list should be able to link to a shop. This can be declared as follows:
 
 <table><tr><td><pre><code>
-:(ShoppingList.dbquity)
+site ShoppingList
+    area Shopping
+        entity Shop
+            collection: Shops
+            text Name
+            identity: Name
+        entity Item
+            collection: Items
+            text Name
+            identity: Name
+        entity List
+            collection: Lists
+            link Shop
+        association ToBuy
+            end List
+            end Item
+                multiplicity: 1..*
 </code></pre></td>
 <td><img src="ShoppingList.dbquity.svg"/></td></tr></table>
 
