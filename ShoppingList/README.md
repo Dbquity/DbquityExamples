@@ -27,8 +27,8 @@ site ShoppingList
 
 ## `entity` models: Item, List, and Shop
 Notice that 
-1. all three `entity` types declare a `collection`,
-2. the Item `entity` type and the Shop `entity` type both declare a `text` Name field which forms their `identity`, and
+1. all three `entity` models declare a `collection`,
+2. the Item `entity` model and the Shop `entity` model both declare a `text` Name field which forms their `identity`, and
 3. the List `entity` declares no fields and no `identity`.
 
 We can use this model to illustrate the core semantics of an entity:
