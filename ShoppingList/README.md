@@ -29,7 +29,7 @@ site ShoppingList
 Notice that 
 1. all three `entity` models declare a `collection`,
 2. the Item `entity` model and the Shop `entity` model both declare a `text` Name field which forms their `identity`, and
-3. the List `entity` declares no fields and no `identity`.
+3. the List `entity` model declares no fields and no `identity`.
 
 We can use this model to illustrate the core semantics of an entity:
 > *an `entity` is a structured piece of data, which we can save into its `collection` and then later find again by its `identity`*.
