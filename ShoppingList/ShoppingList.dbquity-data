@@ -1,25 +1,13 @@
 dataset ShoppingList
-    deployment: model.dbquity.com/examples:ShoppingList
-    entityset Units
-        parent: Setup
-        entity: Unit
-        template: Name;DefaultAmount
-        data:
-            liter;1
-            bakke med 10;1
+    deployment: :ShoppingList
     entityset Items
-        parent: Setup
+        parent: Shopping
         entity: Item
-        template: Name;DefaultAmount;DefaultUnit
+        template: Name
         data:
-            Letmælk;;Setup\Units\"liter"
-                Description =
-                    fra Arla
-                    men helt uden dyr
-            Æg;;Setup\Units\"bakke med 10"
-            Skyr;;Setup\Units\"liter"
-            Appelsinjuice;;Setup\Units\"liter"
-            Ferrero Rocher;;Setup\Units\"bakke med 10"
+            milk
+            potatoes
+            bread
     entityset Lists
         parent: Shopping
         entity: List
@@ -29,9 +17,7 @@ dataset ShoppingList
     entityset ToBuy
         parent: Shopping
         entity: ToBuy
-        template: List;Item;Amount;Unit;Fulfillment
+        template: List;Item
         data:
-            Shopping\Lists\64;Setup\Items\"Letmælk";;;1
-            Shopping\Lists\64;Setup\Items\"Æg";;;1
-            Shopping\Lists\64;Setup\Items\"Skyr";;;
-            Shopping\Lists\64;Setup\Items\"Appelsinjuice";;;1.4
+            Shopping\Lists\64;Setup\Items\"milk"
+            Shopping\Lists\64;Setup\Items\"bread"
