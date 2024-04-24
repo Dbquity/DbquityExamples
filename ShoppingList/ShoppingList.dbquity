@@ -1,5 +1,6 @@
 site ShoppingList
     area Shopping
+        diagramhint: cluster:labeljust="l"
         entity Shop
             collection: Shops
             text Name
