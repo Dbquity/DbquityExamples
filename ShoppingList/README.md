@@ -57,7 +57,7 @@ However, it is often more convenient to use the `draw.bat` batch command that co
 
 `draw.bat` first calls the [CLI](https://model.dbquity.com/#command-line-interface-cli) to produce the `.dot` file, then uses a Graphviz tool called `dot.exe` to produce an `.svg`-file, which it finally opens in the default browser.
 
-In case you have not yet installed Graphviz, `draw.bat` will direct you to [a hint page](https://dbquity.com/svgfail?dotfile=mymodel) with helpful links.
+In case you have not yet installed Graphviz, `draw.bat` will direct you to [a hint page](https://model.dbquity.com/svgfail?dotfile=mymodel) with helpful links.
 
 `draw.bat` uses a simple syntax: `draw <model-name> <options>` where <options> are passed on to the [CLI](https://model.dbquity.com/#command-line-interface-cli) for controlling how the `.dot` file is generated.
 
