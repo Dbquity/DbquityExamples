@@ -78,7 +78,7 @@ Thus, this invariant is meant to illustrate a maintainability point about being 
 Still, Dbquity *does* support imperative code when declaring the `execution` property of an `action` or the `behaviour` of a `step` whilst the combined `behaviour` of an `entity` is declared as a single expression orchestrating the steps that the `entity` declare. ?>
 
 ## curious for more?
-You might then take a look at the [ShoppingList](../ShoppingList/README.md) example, which introduces the key notions of `entity`, `association`, and `link`.
+You might then take a look at the [ShoppingList](../ShoppingList/README.md) example, which introduces the key notions of `entity`, `association`, and `link` and talks about diagramming a model and exporting and importing data from/to a local test site...
 
 
 Cheers  

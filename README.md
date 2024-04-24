@@ -10,4 +10,5 @@ Introducing `site`, `area`, `class`, `field`, and `invariant`.
 Using the [Command Line Interface (CLI)](https://model.dbquity.com/#command-line-interface-cli) to deploy a model to a local test site and accessing the site like an end-user would through the [TestUI](https://model.dbquity.com/#test-ui).
 
 ## [ShoppingList](ShoppingList/README.md)
-Introducing `entity`, `association`, and `link`.
+Introducing `entity`, `association`, and `link`.  
+Diagramming a model, exporting and importing data.
