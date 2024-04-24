@@ -14,8 +14,6 @@ site HelloWorld
         date Start                  # initializes to today() by default
         integer Days
         date End
-            initialization: nil     # works well with the invariant
-                                    # ('nil' means: no value has been entered)
         # when a user changes one value, Dbquity seeks to update another as
         # needed to satisfy the invariant
         invariant:                                    

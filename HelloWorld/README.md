@@ -38,7 +38,6 @@ site HelloWorld
         date Start
         integer Days
         date End
-            initialization: nil
         invariant: Start + Days = End and Start <= End
     area Welcome
         Period Meeting
@@ -46,7 +45,6 @@ site HelloWorld
             multiline
             placeholder: ...
 ```
-
 ## indentation defines model composition and is reflected in the UI 
 Indentation is key in capturing the *structure* of a Dbquity `site`.
 
@@ -80,14 +78,14 @@ Thus, this invariant is meant to illustrate a maintainability point about being 
 Still, Dbquity *does* support imperative code when declaring the `execution` property of an `action` or the `behaviour` of a `step` whilst the combined `behaviour` of an `entity` is declared as a single expression orchestrating the steps that the `entity` declare. ?>
 
 ## curious for more?
-You might then take a look at the [ShoppingList](../ShoppingList/README.md) example, which introduces the key notions of `entity` and `association`<? and talks about diagramming a model and exporting and importing date from/to a local test site..?>.
+You might then take a look at the [ShoppingList](../ShoppingList/README.md) example, which introduces the key notions of `entity`, `association`, and `link`.
 
 
 Cheers  
 *Lars*
 
 ### a comment on `#`-comments
-The Dbquity language supports rest-of-line comments using the hashtag symbol `#`, e.g.:
+The Dbquity language supports rest-of-line comments using the hash symbol `#`, e.g.:
 ```dbquity
 date Start    # initializes to today() by default
 ```

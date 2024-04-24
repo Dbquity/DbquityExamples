@@ -43,7 +43,7 @@ In order for the *find again* piece to work, the `identity` is unique within the
 The entities declared by the `entity` model List will be assigned increasing (but not necessarily consequtive) integer numbers as their `identity`, because the model does not declare otherwise. 
 
 ## `association` model: ToBuy
-Declaring the `association` ToBuy enables users to associate Item entities with List entities such that for a List to be considered valid, at least one Item should be associated To Buy as captured by `multiplicity: 1..*` under `end Item`. The other `end` of the association links to List and as depicted in the diagram defaults to a `multiplicity` of `0..*` (or just `*`)
+Declaring the `association` ToBuy enables users to associate Item entities with List entities such that for a List to be considered valid, at least one Item should be associated To Buy as captured by `multiplicity: 1..*` under `end Item`. The other `end` of the association links to List and as depicted in the diagram defaults to a `multiplicity` of `0..*` (or just `*`).
 
 ## `link` a List to a Shop
 Finally, the ability to link a List to a specific Shop is captured by the line `link Shop`, which does not declare any constraints, meaning that any List entity may be linked to a single Shop.
