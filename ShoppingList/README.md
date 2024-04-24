@@ -61,7 +61,7 @@ In case you have not yet installed Graphviz, `draw.bat` will direct you to [a hi
 
 `draw.bat` uses a simple syntax: `draw <model-name> <options>` where <options> are passed on to the [CLI](https://model.dbquity.com/#command-line-interface-cli) for controlling how the `.dot` file is generated.
 
-For example `draw ShoppingList +m -r -nolabel` produces the diagram from the top of this page:
+For example, `draw ShoppingList +m -r -nolabel` produces the diagram from the top of this page:
 
 ![Diagram showing the structure of the ShoppingList sample model](ShoppingList.dbquity.svg)
 
