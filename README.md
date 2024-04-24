@@ -1,4 +1,6 @@
-This repository contains select sample models illustrating modeling features of [Dbquity](https://dbquity.com).
+This repository
+- contains select sample models illustrating modeling capabilities of [Dbquity](https://model.dbquity.com) and
+- introduces you to some features of the modelers' tooling.
 
 I hope you will find the examples instructive and that you will have great fun creating your own Dbquity models!!  
 *Lars*
