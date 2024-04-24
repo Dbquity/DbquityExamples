@@ -61,7 +61,9 @@ In case you have not yet installed Graphviz, `draw.bat` will direct you to [a hi
 
 `draw.bat` uses a simple syntax: `draw <model-name> <options>` where <options> are passed on to the [CLI](https://model.dbquity.com/#command-line-interface-cli) for controlling how the `.dot` file is generated.
 
-For example `draw ShoppingList +m -r -nolabel` produces the diagram at the top of this page.
+For example `draw ShoppingList +m -r -nolabel` produces the diagram from the top of this page:
+
+![Diagram showing the structure of the ShoppingList sample model](ShoppingList.dbquity.svg)
 
 If you have several `.dbquity`-files in the current directory, you may find `diagrams.bat` useful, and `svg.bat` gives you more fine-grained control than `draw.bat`.
 
@@ -77,7 +79,4 @@ The [CLI](https://model.dbquity.com/#command-line-interface-cli) includes these 
 |export all data to a file|`dbquity export <sitename> [<filename>[.dbquity-data]]`|
 |import dataset(s)|`dbquity import <sitename> [<datafile>[.dbquity-data] [<datafile2>[.dbquity-data] ...]]`|
 
-Here is an example of `.dbquity-data`-file
-```dbquity
-:(ShoppingList.dbquity-data)
-```
+[ShoppingList.dbquity-data](ShoppingList.dbquity-data) is an example of `.dbquity-data`-file.
