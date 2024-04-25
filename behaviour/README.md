@@ -117,7 +117,7 @@ line 34: 'Toss(1)' - autocommit:
 <img src="RollDice.png"/>
 </td></tr></table>
 
-Remember to hit refresh `↔️` and also that the test execution pauses *before* commiting the recent update, so it will appear as if the TestUI is always one `act` behind.
+Remember to hit refresh `↔️` and also that the test execution pauses *before* commiting the recent update, so it will appear as if the `TestUI` is always one `act` behind.
 
 You can even perform tosses from the `TestUI` whilst the test is either paused or executing :-)  
 Remember, if you Toss for the player who is about to commit as part of the test execution, the test execution will fail!
