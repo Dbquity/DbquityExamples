@@ -1,0 +1,52 @@
+test RollDice
+    deployment:     model.dbquity.com/examples/behaviour:RollDice
+    on:             Table                       # scoping first to the Table area
+    act:            set(Players: 1);            # test boundaries using assertfailure
+                    assertfailure NewGame();
+                    set(Target: 6);
+                    assertfailure NewGame()   
+    act:            # at this point, the changes (Players=1, Target=6) to Table are committed
+                    set(Players: 3, Target: 13); # set up for a quick game, and
+                    NewGame()                   # create it - and autocommit
+    on:             Games.last()                # now scope expressions to the newly create game
+    invariant:      # from now on, the invariant is asserted at the end of every act, test, dataset
+        Scores.count() in 0..Players and Scores.all(Amount in 1..Game.Target + 5)
+    act:            # nothing to commit at this point
+                    Toss(1);                    # includes an autocommit
+                    assertfailure Toss(1)       # only one toss per player in each round
+    assert:
+        state = "Active";
+        get(Score:1).Amount > 0;
+        Scores.count() = 1
+    act:            Toss(3);
+                    assertfailure Toss(1);
+                    assertfailure Toss(3);
+                    Toss(2);                    # last toss in first round
+    assert:
+        state = "Active";
+        Scores.count() = 3;
+        Scores.all(Amount in 1..6)
+    act:            Toss(2);                    # first toss in second round
+                    assertfailure Toss(2);
+                    Toss(3);
+                    assertfailure Toss(3);
+                    assertfailure Toss(2);
+                    Toss(1);                    # last toss in second round
+    assert:
+        state = "Active";
+        Scores.count() = 3;
+        Scores.all(Amount in 2..12)
+    act:            foreach p in 1..Players do  # foreach over players for third round
+                        Toss(p)
+    assert:
+        state = "Active" or state = "Completed";
+        Scores.count() = 3;
+        Scores.all(Amount in 3..18)
+    action PlayRound                            # a test may declare an action
+        execution:  foreach i in 1..Players do Toss(i)
+    act:            while not IsDone() do       # act may invoke entity functions
+                        PlayRound()             # and test actions
+    assert:
+        state = "Completed";
+        IsDone();
+        Scores.count() = Players;

@@ -1,0 +1,36 @@
+site RollDice
+    description:                Implement a simple game of dice using behaviour and step
+    location:                   model.dbquity.com/examples/behaviour
+    version:                    0.10.0
+    area Table
+        integer Players
+            default:            3
+        integer Target
+            default:            13
+        step NewGame
+            guard:              Players > 1 and Players < 10 and Target > 6 and Target < 36
+            behaviour:          add(Game, Players: Players, Target: Target)
+            autocommit          # make Game available on other devices
+        entity Game
+            collection:         Games
+            readonly
+            integer Players
+            integer Target
+            function IsDone
+                expression:     Scores.any(Amount = Target)
+            behaviour:          # each round, players toss concurrently
+                while not IsDone() do
+                    with player in 1..Players || Toss(player)
+            step Toss
+                parameter Player
+                behaviour:      # user triggered, lazy-create Score, random update
+                    getoradd(Score: Player).set(Amount: NextAmount())
+                autocommit      # persist making others see the toss
+            entity Score
+                collection:     Scores
+                integer Player
+                integer Amount
+                identity:       Player
+                function NextAmount
+                    expression: if Amount < Game.Target then Amount + random(1,6)
+                                                        else Amount - random(1,6)

@@ -14,3 +14,7 @@ Using the [Command Line Interface (CLI)](https://model.dbquity.com/#command-line
 ## [ShoppingList](ShoppingList/README.md)
 Introducing `entity`, `association`, and `link`.  
 Diagramming a model, exporting and importing data.
+
+## [RollDice](behaviour/README.md)
+Introducing `behaviour` and `step`.  
+Testing a model.
