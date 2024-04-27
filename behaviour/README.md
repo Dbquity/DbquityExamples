@@ -84,43 +84,123 @@ You may run this test thus:
 ```bat
 dbquity test RollDice , RollDice
 ```
-to see in the prompt how each `act` results in an update.
+to see in the prompt each commit of the test execution:
+```bat
+C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice   
+Dbquity CLI v0.10.8199
+    test RollDice , RollDice
+Parsing RollDice.dbquity:
+    site RollDice..............
+validating
+    site RollDice...........................ok
 
-You may also add the `+s` command option which will pause the test of the game a number of times.
+Creating test site: LocalFolder>RollDice-20240427T102206...
+    site RollDice (model.dbquity.com/examples/behaviour:RollDice v0.10.0)
+Running RollDice.dbquity-test
+TEST RollDice:
+line 8: Start-of-act - committed these changes:
+    Update:
+    Table 1|6
+line 10: 'NewGame()' - autocommit - committed these changes:
+    Add:
+      Game '69' 3|13
+    Update:
+    Table 3|13*
+line 16: 'Toss(1)' - autocommit - committed these changes:
+    Add:
+        Score '1' 4
+    Update:
+      Game '69' 3|13*
+line 24: 'Toss(3)' - autocommit - committed these changes:
+    Add:
+        Score '3' 4
+    Update:
+      Game '69' 3|13*
+line 24: 'Toss(2)' - autocommit - committed these changes:
+    Add:
+        Score '2' 3
+    Update:
+      Game '69' 3|13*
+line 34: 'Toss(2)' - autocommit - committed these changes:
+    Update:
+        Score '2' 9
+      Game '69' 3|13*
+line 34: 'Toss(3)' - autocommit - committed these changes:
+    Update:
+        Score '3' 7
+      Game '69' 3|13*
+line 34: 'Toss(1)' - autocommit - committed these changes:
+    Update:
+        Score '1' 10
+      Game '69' 3|13*
+line 40: 'foreach p in 1..Players do Toss(p)' - autocommit - committed these changes:
+    Update:
+        Score '1' 11
+        Score '2' 10
+        Score '3' 9
+      Game '69' 3|13*
+line 48: 'while not IsDone() do PlayRound()' - autocommit - committed these changes:
+    Update:
+        Score '1' 17
+        Score '2' 17
+        Score '3' 13
+      Game '69' 3|13*
+
+PASSING
+deleting test site LocalFolder>RollDice-20240427T102206
+ok
+
+C:\Code\DbquityExamples\behaviour>▮
+```
+
+> Notice that the line numbers indicate the last line of the `act` in which the commit occurs, which is not necessarily the line from where the commit is invoked.
+
+You may also add the `+s` command option which will pause the test of the game after each commit.
 
 During such a pause, you may open the `TestUI` and [Go] the timestamped test site, e.g., `RollDice-20240425T142703`, to observe the present status of the game before hitting a key on the keyboard to make the test progress.
 
 That could look like this:
 <table><tr><td><pre><code>
-...
-      Game '69' 3|13*
-  press Ctrl+C to cancel, or any other key to continue.
-  actually committed:
-    Update:
-        Score '2' 5
-      Game '69' 3|13*
-line 34: 'Toss(3)' - autocommit:
-    Update:
-        Score '3' 10
-      Game '69' 3|13*
-  press Ctrl+C to cancel, or any other key to continue.
-  actually committed:
-    Update:
-        Score '3' 10
-      Game '69' 3|13*
-line 34: 'Toss(1)' - autocommit:
-    Update:
-        Score '1' 3
-      Game '69' 3|13*
-  press Ctrl+C to cancel, or any other key to continue.
+ C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice +s
+ Dbquity CLI v0.10.8199
+     test RollDice , RollDice +s
+ Parsing RollDice.dbquity:
+     site RollDice..............
+ validating
+     site RollDice...........................ok
+ Creating test site: LocalFolder>RollDice-20240427T094412...
+     site RollDice (model.dbquity.com/examples/behaviour:RollDice v0.10.0)
+ Running RollDice.dbquity-test
+ TEST RollDice:
+ press Ctrl+C to cancel, or any other key to continue.
+ ⏎
+ line 8: Start-of-act - committed these changes:
+     Update:
+     Table 1|6
+ press Ctrl+C to cancel, or any other key to continue.
+ ⏎
+ line 10: 'NewGame()' - autocommit - committed these changes:
+     Add:
+     Game '69' 3|13
+     Update:
+     Table 3|13*
+ press Ctrl+C to cancel, or any other key to continue.
+ ⏎
+ line 16: 'Toss(1)' - autocommit - committed these changes:
+     Add:
+         Score '1' 2
+     Update:
+     Game '69' 3|13*
+ press Ctrl+C to cancel, or any other key to continue.
+ ▮
 </code></pre></td><td>
 <img src="RollDice.png"/>
 </td></tr></table>
 
-Remember to hit refresh `↔️` and also that the test execution pauses *before* commiting the recent update, so it will appear as if the `TestUI` is always one `act` behind.
+where the first Toss for player 1 has just occurred.
 
-You can even perform tosses from the `TestUI` whilst the test is either paused or executing :-)  
-Remember, if you Toss for the player who is about to commit as part of the test execution, the test execution will fail!
+Remember to hit refresh `↔️`.  
+You can also perform tosses from the `TestUI` whilst the test is either paused or executing, and that may of course interfere with the test execution... :-)
 
 *Alea jacta est*
 # 🎲
