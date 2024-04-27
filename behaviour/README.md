@@ -23,7 +23,7 @@ The model source is here: [RollDice.dbquity](RollDice.dbquity) and as always, yo
 ```bat
 dbquity deploy RollDice
 ```
-and try playing it using the [TestUI](https://model.dbquity.com/#test-ui).
+and try playing it using the [`TestUI`](https://model.dbquity.com/#test-ui).
 
 Alternatively, consider this [automated test](RollDice.dbquity-test) of the model:
 ```dbquity
@@ -153,11 +153,11 @@ ok
 C:\Code\DbquityExamples\behaviour>▮
 ```
 
-> Notice that the line numbers indicate the last line of the `act` in which the commit occurs, which is not necessarily the line from where the commit is invoked.
+> Notice that the line numbers indicate the last line of the `act` in which the commit occurs (which sometimes is not the specific line from where the commit is invoked).
 
-You may also add the `+s` command option which will pause the test of the game after each commit.
+You may also add the `+s` command option which will pause the test execution after each commit.
 
-During such a pause, you may open the `TestUI` and [Go] the timestamped test site, e.g., `RollDice-20240425T142703`, to observe the present status of the game before hitting a key on the keyboard to make the test progress.
+During such a pause, you may open the [`TestUI`](https://model.dbquity.com/#test-ui) and [Go] to the timestamped test site, e.g., `RollDice-20240427T094412`, to observe the present status of the game before hitting a key on the keyboard to make the test progress.
 
 That could look like this:
 <table><tr><td><pre><code>
@@ -200,7 +200,7 @@ That could look like this:
 where the first Toss for player 1 has just occurred.
 
 Remember to hit refresh `↔️`.  
-You can also perform tosses from the `TestUI` whilst the test is either paused or executing, and that may of course interfere with the test execution... :-)
+You can also perform tosses from the [`TestUI`](https://model.dbquity.com/#test-ui) whilst the test is either paused or executing, and that may of course interfere with the test execution... :-)
 
 *Alea jacta est*
 # 🎲
