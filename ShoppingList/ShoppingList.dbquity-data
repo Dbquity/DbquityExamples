@@ -19,5 +19,5 @@ dataset ShoppingList
         entity: ToBuy
         template: List;Item
         data:
-            Shopping\Lists\64;Setup\Items\"milk"
-            Shopping\Lists\64;Setup\Items\"bread"
+            Shopping\Lists\64;Shopping\Items\"milk"
+            Shopping\Lists\64;Shopping\Items\"bread"
