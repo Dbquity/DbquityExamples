@@ -21,7 +21,7 @@ Toss is a `step` in the Game `behaviour` and the `||` operator means that the to
 ## Test it out :-)
 The model source is here: [RollDice.dbquity](RollDice.dbquity) and as always, you can deploy it locally
 ```bat
-dbquity deploy RollDice
+dbquity deploy RollDice *
 ```
 and try playing it using the [`TestUI`](https://model.dbquity.com/#test-ui).
 
