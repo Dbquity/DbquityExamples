@@ -32,7 +32,7 @@ As the inventor of Dbquity, I enjoyed reading that break-down and I hope that re
 For ease of reference, this is a condensed version of the HelloWorld site model stripped from `description` properties and comments:
 ```dbquity
 site HelloWorld
-    location: model.dbquity.com/examples
+    publishedat: model.dbquity.com/examples
     version: 1.0.0
     class Period
         date Start

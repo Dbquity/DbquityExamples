@@ -1,5 +1,5 @@
 site HelloWorld
-    location: model.dbquity.com/examples
+    publishedat: model.dbquity.com/examples
     version: 1.0.0
     description:
         "Hello World", says Dbquity.
