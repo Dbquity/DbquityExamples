@@ -8,24 +8,30 @@ It remains unknown whether this notion of `behaviour` will be truly useful or no
 
 The model introduces a Table whose behaviour is to keep offering the creation of a new game.
 A Game keeps the Scores of a number of players as they take turns tossing:
+
 ```dbquity
 while not IsDone() do
     with player in 1..Players || Toss(player)
 ```
+
 where Players is the number of players in this Game as determined when the Game was created, and `IsDone()` calls the parameter-less `function` IsDone which is declared on `entity` Game.
 
 So long as the game is not done, we play a round, in which all players from number 1 up to Players get to Toss in parallel; meaning in no particular order, but only once per player within this round.
 
-Toss is a `step` in the Game `behaviour` and the `||` operator means that the tosses can occur in parallel as mentioned (we also have `,`: sequence, and `|`: choice operators for declaring `behaviour`).
+Toss is a `step` in the Game `behaviour` and the `||` operator means that the tosses can occur in parallel as mentioned (we also have `;`: sequence, and `|`: choice operators for declaring `behaviour`).
 
 ## Test it out :-)
+
 The model source is here: [RollDice.dbquity](RollDice.dbquity) and as always, you can deploy it locally
+
 ```bat
 dbquity deploy RollDice *
 ```
+
 and try playing it using the [`TestUI`](https://model.dbquity.com/#test-ui).
 
 Alternatively, consider this [automated test](RollDice.dbquity-test) of the model:
+
 ```dbquity
 test RollDice
     deployment:     model.dbquity.com/examples/behaviour:RollDice
@@ -80,11 +86,15 @@ test RollDice
         IsDone();
         Scores.count() = Players;
 ```
+
 You may run this test thus:
+
 ```bat
 dbquity test RollDice , RollDice
 ```
+
 to see in the prompt each commit of the test execution:
+
 ```bat
 C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice   
 Dbquity CLI v0.10.8199
