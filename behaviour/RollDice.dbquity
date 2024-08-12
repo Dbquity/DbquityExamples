@@ -1,7 +1,5 @@
 site RollDice
     description:                Implement a simple game of dice using behaviour and step
-    publishedat:                model.dbquity.com/examples/behaviour
-    version:                    0.10.0
     area Table
         integer Players
             default:            3

@@ -32,7 +32,7 @@ As the inventor of Dbquity, I enjoyed reading that break-down and I hope that re
 For ease of reference, this is a condensed version of the HelloWorld site model stripped from `description` properties and comments:
 ```dbquity
 site HelloWorld
-    publishedat: model.dbquity.com/examples
+    location: model.dbquity.com/examples
     version: 1.0.0
     class Period
         date Start
@@ -45,6 +45,9 @@ site HelloWorld
             multiline
             placeholder: ...
 ```
+
+> Note, that the `location` property has since been renamed `origin`.
+
 ## indentation defines model composition and is reflected in the UI 
 Indentation is key in capturing the *structure* of a Dbquity `site`.
 
