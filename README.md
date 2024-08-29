@@ -3,7 +3,9 @@ This repository
 - introduces you to some features of the modelers' tooling.
 
 I hope you will find the examples instructive and that you will have great fun creating your own Dbquity models!!  
-*Lars*
+*Lars*  
+
+(the headlines below are clickable links to more details on each example)
 
 ## [HelloWorld](HelloWorld/README.md)
 Any language needs a *Hello World* example - the Dbquity Modeling Language differs not :-)
