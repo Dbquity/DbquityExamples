@@ -1,39 +1,11 @@
-# AI about the HelloWorld model source
+# Declarative modeling
 
-Here is what Microsoft's Copilot had to say about the [HelloWorld](HelloWorld.dbquity) `site model` on a rainy spring day in April 2024:
+Dbquity aims to employ a model source language that is both concise and intuitive as well as avoids some of the drawbacks of imperative coding, where manually implementing multiple views of the same logical abstraction is often both tedious and errorprone.
+Hopefully, this *Hello World* example illustrates that.
 
-<i>
-The Dbquity Modeling Language is an interesting tool! Let’s break down the information from the selected text:
-
-1. Site Description:
-    - The site is named “HelloWorld” and is located at model.dbquity.com/examples.
-    - It’s version 1.0.0.
-    - The site illustrates various concepts such as classes, invariants, areas, and multiline text.
-2. Class: Period:
-    - The Period class represents an interval of a certain number of days.
-    - It has three fields:
-        - Start: A date field that initializes to today’s date by default.
-        - Days: An integer field representing the number of days in the interval.
-        - End: Another date field.
-    - The class uses an invariant property:
-        - Start + Days = End (the interval is consistent).
-        - Start <= End (the start date is before or equal to the end date).
-3. Area: Welcome:
-    - Contains a Period instance named Meeting.
-    - Also includes a multiline text field called Greeting with a placeholder for kind words (emoji allowed).
-
-Overall, Dbquity seems to be a powerful modeling language for capturing and managing data structures.
-</i>
-
-# Inventor's comments
-
-As the inventor of Dbquity, I enjoyed reading that break-down and I hope that repeating it here conveys that the idea of the Dbquity language is to be both concise and intuitive.
-
-For ease of reference, this is a condensed version of the HelloWorld site model stripped from `description` properties and comments:
+Here is a condensed version of the HelloWorld site model stripped from `description` properties and comments:
 ```dbquity
 site HelloWorld
-    location: model.dbquity.com/examples
-    version: 1.0.0
     class Period
         date Start
         integer Days
@@ -43,10 +15,7 @@ site HelloWorld
         Period Meeting
         text Greeting
             multiline
-            placeholder: ...
 ```
-
-> Note, that the `location` property has since been renamed `origin`.
 
 ## indentation defines model composition and is reflected in the UI 
 Indentation is key in capturing the *structure* of a Dbquity `site`.
@@ -82,10 +51,6 @@ Still, Dbquity *does* support imperative code when declaring the `execution` pro
 
 ## curious for more?
 You might then take a look at the [ShoppingList](../ShoppingList/README.md) example, which introduces the key notions of `entity`, `association`, and `link` and talks about diagramming a model and exporting and importing data from/to a local test site...
-
-
-Cheers  
-*Lars*
 
 ### a comment on `#`-comments
 The Dbquity language supports rest-of-line comments using the hash symbol `#`, e.g.:
