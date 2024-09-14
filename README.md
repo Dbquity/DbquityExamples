@@ -19,4 +19,6 @@ Looking at a model comprising multiple entities, the notions of `entity`, `assoc
 See the [Shopping List readme](ShoppingList/README.md) for a discussion of these features.
 
 ## RollDice
-The [RollDice readme](behaviour/README.md) walks through the model and proposes a declarative approach to logic using the notions of `behaviour` and `step`, and ends with demonstrating how to automatically test it.
+The [RollDice readme](behaviour/README.md) walks through a model of a simple toss a die game and proposes a declarative approach to logic using the notions of `behaviour` and `step`.
+
+Then, it and ends by demonstrating how to test it using the automated test features of Dbquity.

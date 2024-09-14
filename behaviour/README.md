@@ -1,4 +1,4 @@
-# Roll a Dice 🎲 behaving
+# Roll Dice 🎲 behaving
 
 In trying to push the notion of declarativeness as far as possible whilst realizing that imperative action cannot be completely avoided, Dbquity introduces the notion of entity `behaviour` as a single, declarative expression that orchestrates a number of imperative `step` members declared on the entity.
 
