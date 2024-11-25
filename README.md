@@ -26,7 +26,7 @@ Then, it demonstrates how to test RollDice using the automated test features of 
 ## WebWordle
 A variant of the well-known Wordle game that let's multiple players compete on guessing words off a webpage rather than from a dictionary.
 
-This game came about as a very welcome challenge to the Dbquity modeling capabilities raised by @nkyaelly  :-) :-) :-)
+This game came about as a very welcome challenge to the Dbquity modeling capabilities raised by [@nkyaelly](https://github.com/nkyaelly)  :-) :-) :-)
 
 Read about WebWordle and take on a "key" challenge of your own [here][wordle-readme]. 
 
