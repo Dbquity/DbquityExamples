@@ -1,4 +1,5 @@
 site RollDice
+    origin:                     model.dbquity.com/examples
     description:                Implement a simple game of dice using behaviour and step
     area Table
         integer Players

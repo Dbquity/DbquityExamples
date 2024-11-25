@@ -96,7 +96,7 @@ dbquity test RollDice , RollDice
 to see in the prompt each commit of the test execution:
 
 ```bat
-C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice   
+C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice ⏎
 Dbquity CLI v0.10.8199
     test RollDice , RollDice
 Parsing RollDice.dbquity:
@@ -171,7 +171,7 @@ During such a pause, you may open the [`TestUI`](https://model.dbquity.com/#test
 
 That could look like this:
 <table><tr><td><pre><code>
- C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice +s
+ C:\Code\DbquityExamples\behaviour>dbquity test RollDice , RollDice +s ⏎
  Dbquity CLI v0.10.8199
      test RollDice , RollDice +s
  Parsing RollDice.dbquity:
@@ -209,7 +209,6 @@ That could look like this:
 
 where the first Toss for player 1 has just occurred.
 
-Remember to hit refresh `↔️`.  
 You can also perform tosses from the [`TestUI`](https://model.dbquity.com/#test-ui) whilst the test is either paused or executing, and that may of course interfere with the test execution... :-)
 
 *Alea jacta est*
