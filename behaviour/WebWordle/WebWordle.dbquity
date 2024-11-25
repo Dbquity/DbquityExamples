@@ -1,0 +1,142 @@
+site WebWordle
+    origin:                     model.dbquity.com/examples
+    version:                    0.1.0       
+    area Wordle
+        text WebPage
+            input
+            url
+            default:            "https://dbquity.com"
+        integer LetterCount
+            input
+            caption:            Count of letters
+            constraint:         . in 4..8
+            default:            4
+        class About
+            title:
+                "Out of"||Occurrences||"word occurrences we found"||Distincts||
+                "distinct word"|(if (several: Distincts > 1) then 's')||
+                "of"||LetterCount||"letters on"||WebPage||
+                (if several then "and chose one for you to guess!"
+                            else ". Can you guess it?")
+            text WebPage
+            integer Occurrences
+            integer Distincts
+        action OpenRecentGame
+            caption:            Join most recent game...
+            guard:              (game: Games.last(Guessed = nil))
+            execution:          game.open()
+        action Start
+            caption:            Start a new game...
+            guard:              WebPage.isurl() and isvalid(LetterCount)
+            execution:          candidates: WebPage.download().aswords().where(IsQualified(.));
+                                words: candidates.count();
+                                candidates: candidates.where(length() = LetterCount).distinct();
+                                if (c: candidates.count()) < 1 then
+                                    fail("No"||LetterCount|"-letter word found");
+                                add(Game, TheWord: candidates[random(1, c)],
+                                    About: About(WebPage, words, c))
+            autocommit
+        function IsQualified
+            parameter word
+            expression:         if word.length() > 3 then word.all(. in (atoz? 'a'..'z'))
+        entity Game
+            collection:         Games
+            readonly
+            guard:              Wordle.IsQualified(TheWord) and AttemptsAllowed > 0
+            title:              identity
+            integer AttemptsAllowed
+                hidden
+                expression:     usercount * (LetterCount - 1) + LetterCount
+                                where usercount: max(1, Attempts.createdby.distinct().count())
+            integer AttemptCount
+                caption:        Guesses
+                offcard
+                expression:     Attempts.count()
+            text TheWord
+                caption:        The word
+                hidden:         not Guessed
+            integer LetterCount
+                hidden
+                expression:     TheWord.length()
+            text Guess
+                input
+                offlist
+                readonly:       false
+                hidden:         Guessed <> nil
+                caption:        Your guess
+            function GuessIsValid
+                expression:     if Guess.length() = LetterCount then Wordle.IsQualified(Guess)
+            action Submit
+                offlist
+                guard:          Guessed = nil and GuessIsValid()
+                execution:      add(Attempt, A:Guess[1], B:Guess[2], C:Guess[3], D:Guess[4],
+                                    E:Guess[5], F:Guess[6], G:Guess[7], H:Guess[8]);
+                                if Guess = TheWord or Attempts.count() >= AttemptsAllowed then
+                                    set(Guessed: Guess = TheWord);
+                                set(Guess: nil)
+                autocommit
+            boolean Guessed
+                hidden
+            text By
+                caption:        Guessed by
+                hidden:         Guessed = nil
+                expression:     if Guessed then Attempts.last().by
+            constraint:         "Game over! You didn't guess the"||LetterCount||"letter word from"||
+                                About.WebPage ~ Guessed <> false
+            About About
+                hidden
+            instruction:
+                if Guessed then
+                    "Congratulations!"||By||"guessed '"|TheWord|"' from"||About.WebPage||
+                    "in attempt number"||(a:Attempts.count())|
+                    (if a < 3 then "!!" else if a < 5 then "!")
+                else if Guessed = nil then
+                    About//
+                    "You have"||(if (a:(AttemptsAllowed-Attempts.count())) = 0 then "no" else a)||
+                    "remaining attempt"|(if a <> 1 then 's' else '!')//
+                    (if not GuessIsValid() then
+                        "Please enter"||LetterCount||"letters from 'a' to 'z'")
+            entity Attempt
+                importance:     promoted
+                readonly
+                collection:     Attempts
+                title:          A|B|C|D|E|F|G|H
+                character A
+                character B
+                character C
+                character D
+                character E
+                    hidden:     Game.LetterCount < 5
+                character F
+                    hidden:     Game.LetterCount < 6
+                character G
+                    hidden:     Game.LetterCount < 7
+                character H
+                    hidden:     Game.LetterCount < 8
+                text by
+                    expression: createdby
+                styling:        A: GetStyle(A, 1), B: GetStyle(B, 2), C: GetStyle(C, 3),
+                                D: GetStyle(D, 4), E: GetStyle(E, 5), F: GetStyle(F, 6),
+                                G: GetStyle(G, 7), H: GetStyle(H, 8)
+                function GetStyle
+                    parameter Letter
+                    parameter Index
+                    expression: if Index > Game.LetterCount then nil
+                                else if title = Game.TheWord then Guessed
+                                else if Letter = Game.TheWord[Index] then Right
+                                else if Game.TheWord.contains(Letter) then Good
+                style Good
+                    description:A letter that is from the word,
+                                but is not in the right place
+                    setters:    textcolor:          white,
+                                backgroundcolor:    orange
+                style Right
+                    description:A correct letter
+                                in the right place
+                    setters:    textcolor:          white,
+                                backgroundcolor:    green
+                style Guessed
+                    description:All letters are right :-)
+                    setters:    textcolor:          white,
+                                backgroundcolor:    green,
+                                scale:              1.3
