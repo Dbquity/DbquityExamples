@@ -1,12 +1,12 @@
 # Guess a word off a web page
 
-This model introduces the `style` model element and the `input` field modifier. It utilizes the built-in function `download()` function, which when called on a text that contains a url downloads the content of that webpage as a text.
+This model introduces the `style` model element and the `input` field modifier. It utilizes the built-in `download()` function, which when called on a text that contains a url downloads the content as a text.
 
 Here is the overview:
 
 ![](WebWordle.dbquity.svg)
 
-The [WebWordle.dbquity](WebWordle.dbquity) file contains the model, and the sketch of adding a keyboard to the `Game`, which is shown below, showcases both the `case`function and `oncreate`, which is one out of 4 `entity` triggers:
+The [WebWordle.dbquity](WebWordle.dbquity) file contains the model source, and the sketch of adding a keyboard to the `Game`, which is shown below, showcases both the `case`function and `oncreate`, which is one out of 4 `entity` triggers:
 
 ```dbquity
 oncreate, onrefresh, ondelete, oncopy
@@ -25,7 +25,7 @@ entity Game
         action SetKey
             parameter key
             execution:
-                if key='☑️' then Game.Submit() // the current Submit action needs to create a new attempt
+                if key='☑️' then Game.Submit()  // Submit needs to only create a new attempt, if we are not done
                 else if key = '🔙' then (SetLetter(nil); if In>1 then set(In: In - 1))
                 else SetLetter(key)
         action SetLetter
@@ -34,7 +34,8 @@ entity Game
                 else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
                 else if In=7 then set(G:key) else if In=8 then set(H:key)
     oncreate:
-        add(Attempt); // blank attempt for keying-in
+        add(Attempt, In:1); // blank attempt for keying-in
+                            // - btw, do not style the last Attempt, unless we are done!
         add(KeyboardRow, a:'q', b:'w', c:'e', d:'r', ...);
         add(KeyboardRow, a:'a', b:'s', ...);
         add(KeyboardRow, a:'☑️', b:'z', ..., i:'🔙')
