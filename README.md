@@ -22,3 +22,12 @@ See the [Shopping List readme](ShoppingList/README.md) for a discussion of these
 The [RollDice readme](behaviour/README.md) walks through a model of a simple toss a die game and proposes a declarative approach to logic using the notions of `behaviour` and `step`.
 
 Then, it and ends by demonstrating how to test it using the automated test features of Dbquity.
+
+## WebWordle
+A variant of the well-known Wordle game that let's multiple players compete on guessing words off a webpage rather than from a dictionary.
+
+This game came about as a very welcome challenge to the Dbquity modeling capabilities raised by @Elly  :-) :-) :-)
+
+Read about WebWordle and take on a "key" challenge of your own [here][wordle-readme]. 
+
+[wordle-readme]: WebWordle/README.md
