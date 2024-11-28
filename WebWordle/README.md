@@ -46,7 +46,7 @@ entity Game
         collection: Keyboard
         readonly
         character a
-            ontap:      SetKey(a)   // NOTE! ontap: is not yet - release 0.10.8820 of Dbquity - supported
+            ontap:      SetKey(a)   // NOTE! ontap: is not yet - release 0.10.8821 of Dbquity - supported
         character b
             ontap:      SetKey(b)
         character c
