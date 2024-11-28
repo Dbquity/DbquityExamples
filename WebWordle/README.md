@@ -2,10 +2,12 @@
 
 This model introduces the `style` model element and the `input` field modifier. It utilizes the built-in `download()` function, which when called on a text that contains a url downloads the content as a text.
 
-|![Wordle home](Wordle.png)|![Bob beats Alice](BobBeatsAlice.png)|
-|-|-|
+Here are a few screen shots:
 
-Here is the model diagram:
+|![Bob starts](Bob%20starts.png)|![game is on](Game%20'334'%20is%20on.png)|![congrats](BobBeatsAlice.png)|
+|-|-|-|
+
+and here is the model diagram:
 
 ![](WebWordle.dbquity.svg)
 
