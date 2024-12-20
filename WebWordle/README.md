@@ -32,9 +32,10 @@ entity Game
             execution:
                 if key='☑️' then Game.Submit()  // Submit needs to only create a new attempt, if we are not done
                 else if key = '🔙' then (SetLetter(nil); if In>1 then set(In: In - 1))
-                else SetLetter(key)
+                else (SetLetter(key); set(In: if In = 8 then 1 else In + 1))
         action SetLetter
             parameter key
+            execution:
                 if In=1 then set(A:key) else if In=2 then set(B:key) else if In=3 then set(C:key)
                 else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
                 else if In=7 then set(G:key) else if In=8 then set(H:key)
@@ -48,14 +49,10 @@ entity Game
         collection: Keyboard
         readonly
         character a
-            ontap:      SetKey(a)   // NOTE! ontap: is not yet - release 0.10.8821 of Dbquity - supported
         character b
-            ontap:      SetKey(b)
         character c
-            ontap:      SetKey(c)
         ...
         character j
-            ontap:      SetKey(j)
         action SetKey
             parameter key
             execution:  Game.attempts.last().SetKey(key)
@@ -68,13 +65,16 @@ entity Game
                     '☑️','🔙': Action,
                     default: NormalKey)
         style NormalKey
+            onclick:    SetKey(.)   // NOTE! onclick: is not yet - release 0.10.8847 of Dbquity - supported
             setters:    textcolor: white,
                         backgroundcolor: gray
         style MiddleRow
+            onclick:    SetKey(.)
             setters:    textcolor: white,
                         backgroundcolor: gray,
                         xtranslation: 18 
         style Action
+            onclick:    SetKey(.)
             setters:    textcolor: white,
                         backgroundcolor: oceanblue,
                         
