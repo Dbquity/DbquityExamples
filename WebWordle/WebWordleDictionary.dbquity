@@ -1,0 +1,309 @@
+site WebWordle
+    origin:                     model.dbquity.com/examples
+    version:                    1.0.0
+    area Wordle
+        entity Dictionary
+            description:
+                Den Danske Ordbog;dansk;https://ordnet.dk/ddo/ordbog?query=<word>;id="betydninger"
+                Merriam-Webster;American English;https://www.merriam-webster.com/dictionary/<word>;Definition &amp; Meaning - Merriam-Webster</title>
+            importance:         additional
+            collection:         Dictionaries
+            derived
+            text Name
+                scope:          "Den Danske Ordbog"; "Merriam-Webster"
+            identity:           Name
+            text Language
+                default:
+                    case(Name, "Den Danske Ordbog": "dansk",
+                        "Merriam-Webster": "American English")
+            text LookupUrl
+                importance:     additional
+                default:        
+                    case(Name,
+                        "Den Danske Ordbog":
+                            "https://ordnet.dk/ddo/ordbog?query=<word>",
+                        "Merriam-Webster":
+                            "https://www.merriam-webster.com/dictionary/<word>")
+            text FoundFragment
+                importance:     additional
+                default:
+                    case(Name,
+                        "Den Danske Ordbog":
+                            "id="|'"'|"betydninger"|'"',
+                        "Merriam-Webster":
+                            "Definition &amp; Meaning - Merriam-Webster</title>")
+            function Contains
+                parameter word
+                expression:     LookupUrl.replace("<word>", word).download().
+                                contains(FoundFragment.replace("<word>", word))
+        text WebPage
+            input
+            zup
+            url
+            default:            "https://dbquity.com"
+        integer LetterCount
+            input
+            zup
+            caption:            Count of letters
+            constraint:         . in 4..8
+            default:            5
+        link GameDictionary
+            entity:             Dictionary
+            input
+            zup
+            default:            Wordle.get(Dictionary: "Merriam-Webster")
+        class About
+            title:
+                "Out of"||Occurrences||"word occurrences we found"||Distincts||
+                "distinct word"|(if (several: Distincts > 1) then 's')||
+                "of"||LetterCount||"letters on"||WebPage||
+                (if several then "and chose one for you to guess!"
+                            else ". Can you guess it?")
+            text WebPage
+            integer LetterCount
+            integer Occurrences
+            integer Distincts
+        action OpenRecentGame
+            caption:            Join most recent game...
+            guard:              Games.last(Guessed = nil)
+            execution:          Games.last(Guessed = nil).open()
+        action Start
+            caption:            Start a new game...
+            guard:              WebPage.isurl() and isvalid(LetterCount)
+            execution:          candidates: WebPage.download().aswords().where(IsQualified(.));
+                                words: candidates.count();
+                                candidates: candidates.where(length() = LetterCount).distinct();
+                                word: nil; a: 0;
+                                while a < (c? candidates.count()) and not word do (
+                                    a: a+1;
+                                    w: candidates[random(1, c)];
+                                    if GameDictionary.Contains(w) then word: w
+                                );
+                                if not word then
+                                    fail("No"||LetterCount|"-letter word found");
+                                add(Game, TheWord: word.uppercase(),
+                                    Dictionary: GameDictionary,
+                                    About: About(WebPage, LetterCount, words, c))
+            autocommit
+        function IsQualified
+            parameter word
+            expression:         if word.length() > 3 then word.all(. in (atoz? 'a'..'z'))
+        entity Game        
+            collection:         Games
+            readonly
+            title:              identity
+            integer AttemptsAllowed
+                hidden
+                expression:     usercount * (LetterCount - 1) + LetterCount
+                                where usercount: max(1, Attempts.createdby.distinct().count())
+            integer AttemptCount
+                caption:        Guesses
+                offcard
+                expression:     Attempts.count()
+            text TheWord
+                caption:        The word
+                hidden:         not Guessed
+            integer LetterCount
+                hidden
+                expression:     TheWord.length()
+            text Played
+                expression:     created|".."//
+                                if Guessed = nil then now() else Attempts.last().created
+            function GuessIsValid
+                expression:     if (g: Attempts.draft().title).length() = LetterCount then
+                                    g.all(. in (ATOZ? 'A'..'Z'))
+            action Submit
+                hidden
+                guard:          Guessed = nil and GuessIsValid() and Attempts.draft()
+                execution:      guess: Attempts.draft();
+                                guess.realize();
+                                if (g: guess.title) = TheWord or
+                                    Attempts.count() >= AttemptsAllowed then
+                                    set(Guessed: g = TheWord)
+                autocommit
+            boolean Guessed
+                hidden
+            text By
+                caption:        Guessed by
+                hidden:         Guessed <> true
+                expression:     if Guessed then Attempts.last().by
+            constraint:         "Game over! You didn't guess the"||LetterCount||"letter word from"||
+                                About.WebPage ~ Guessed <> false
+            link Dictionary
+            About About
+                hidden
+            instruction:
+                if Guessed then
+                    "Congratulations!"||By||"guessed '"|TheWord|"' from"||About.WebPage||
+                    "in attempt number"||(a:Attempts.count())|
+                    (if a < 3 then "!!" else if a < 5 then "!")
+                else if Guessed = nil then
+                    About//
+                    "You have"||(if (a:(AttemptsAllowed-Attempts.count())) = 0 then "no" else a)||
+                    "remaining attempt"|(if a <> 1 then 's' else '!')//
+                    (if not GuessIsValid() then
+                        "Please enter"||LetterCount||"letters from 'A' to 'Z'")
+            entity Attempt
+                importance:     promoted
+                readonly:       issaved or Game.Guessed <> nil
+                undeletable
+                collection:     Attempts
+                scopefilled:    Guessed <> nil      # evaluated on Game
+                remaindraft
+                title:          A|B|C|D|E|F|G|H
+                character A
+                character B
+                character C
+                character D
+                character E
+                    hidden:     Game.LetterCount < 5
+                character F
+                    hidden:     Game.LetterCount < 6
+                character G
+                    hidden:     Game.LetterCount < 7
+                character H
+                    hidden:     Game.LetterCount < 8
+                boolean IsAWord
+                    input
+                    hidden
+                text by
+                    expression: createdby
+                styling:        A: GetStyle(A, 1), B: GetStyle(B, 2), C: GetStyle(C, 3),
+                                D: GetStyle(D, 4), E: GetStyle(E, 5), F: GetStyle(F, 6),
+                                G: GetStyle(G, 7), H: GetStyle(H, 8), $grid: BareGrid
+                function GetStyle
+                    parameter Letter
+                    parameter Index
+                    expression: if Index <= letters then (
+                                    WidthAlignment;
+                                    if issaved then (
+                                        if title = (theWord:Game.TheWord) then Guessed
+                                        else 
+                                            if Letter = theWord[Index] then Right
+                                            else if theWord.contains(Letter) then Good                                        
+                                    ) else (
+                                        (if IsAWord = false then Bad);
+                                        if In = Index then Focus
+                                    )
+                                ) where letters:Game.LetterCount
+                style WidthAlignment
+                    description:Aligns width of attempts with width of keyboard
+                    setters:    widthrequest:       9 * 32 / Game.LetterCount,
+                                backgroundcolor:    "white"
+                style Bad
+                    description:Enough letters but not a word
+                    setters:    textcolor:          "red"
+                style Good
+                    description:A letter that is from the word,
+                                but is not in the right place
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "orange"
+                style Right
+                    description:A correct letter
+                                in the right place
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "green"
+                style Guessed
+                    description:All letters are right :-)
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "green",
+                                fontattributes:     "bold",
+                                scale:              1.1
+                style Focus
+                    description:Highlights where the next keypress goes
+                    setters:    backgroundcolor:    "lightblue"
+                style BareGrid
+                    setters:    noheadrow,
+                                nokeycolumn,
+                                header.isvisible:   false,
+                                rowheight:          9 * 32 / Game.LetterCount,
+                                horizontaloptions:  "center"
+                integer In
+                    input
+                    hidden
+                    default:    1
+                action SetKey
+                    parameter key
+                    guard:      isdraft and Game.Guessed = nil
+                    execution:
+                        if key = '!' then (
+                            if title.length() = Game.LetterCount then
+                                if IsAWord then Game.Submit()
+                        ) else if key = '<' then
+                            set(In: if In = 1 then Game.LetterCount else In - 1)
+                        else if key = '>' then
+                            set(In: if In = Game.LetterCount then 1 else In + 1)
+                        else if In <= Game.LetterCount then (
+                            SetLetter(key);
+                            set(In: if In = Game.LetterCount then 1 else In + 1))
+                action SetLetter
+                    parameter key
+                    execution:
+                        if In=1 then set(A:key) else if In=2 then set(B:key) else if In=3 then set(C:key)
+                        else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
+                        else if In=7 then set(G:key) else if In=8 then set(H:key);
+                        set(IsAWord: Game.Dictionary.Contains(@title.lowercase()))
+
+            oncreate:
+                add(KeyboardRow, a:'Q', b:'W', c:'E', d:'R', e:'T', f:'Y', g:'U', h:'I', i:'O', j:'P');
+                add(KeyboardRow, a:'A', b:'S', c:'D', d:'F', e:'G', f:'H', g:'J', h:'K', i:'L');
+                add(KeyboardRow, a:'!', b:'Z', c:'X', d:'C', e:'V', f:'B', g:'N', h:'M', i:'<', j:'>')
+            entity KeyboardRow
+                importance:     promoted
+                collection: Keyboard
+                readonly
+                character a
+                character b
+                character c
+                character d
+                character e
+                character f
+                character g
+                character h
+                character i
+                character j
+                action SetKey
+                    parameter key
+                    execution:  if (draft: Game.Attempts.draft()) then draft.SetKey(key)
+                styling:        a: GetStyle(a), b: GetStyle(b), c:GetStyle(c), d:GetStyle(d),
+                                e: GetStyle(e), f: GetStyle(f), g:GetStyle(g), h:GetStyle(h),
+                                i: GetStyle(i), j: GetStyle(j), $grid: ThreeRowsBareGrid
+                function GetStyle
+                    parameter key
+                    expression:
+                        case(key,
+                            'A','S','D','F','G','H','J','K','L': (MiddleRow; GoodOrBad(key)),
+                            '!','<','>': Action,
+                            nil: Hidden,
+                            default: (NormalKey; GoodOrBad(key)))
+                function GoodOrBad
+                    parameter key
+                    expression:
+                        if Game.Attempts.any(title.contains(key)) then
+                            (if Game.TheWord.contains(key) then Good else Bad)
+                style Good
+                    setters:    backgroundcolor:    "green"
+                style Bad
+                    setters:    textcolor:          "darkgray"
+                style NormalKey
+                    onclick:    SetKey(.)
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "gray"
+                style MiddleRow
+                    onclick:    SetKey(.)
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "gray",
+                                translationx:       18
+                style Action
+                    onclick:    SetKey(.)
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "blue"
+                style Hidden
+                    setters:    isvisible:          false
+                style ThreeRowsBareGrid
+                    setters:    noheadrow,
+                                nokeycolumn,
+                                header.isvisible:   false,
+                                shownrows:          3,
+                                expander.isvisible: false,
+                                horizontaloptions:  "center"

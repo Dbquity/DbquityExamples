@@ -4,12 +4,14 @@ This model introduces the `style` model element and the `input` field modifier. 
 
 Here are a few screen shots:
 
-|![Bob starts](Bob%20starts.png)|![game is on](Game%20'334'%20is%20on.png)|![congrats](BobBeatsAlice.png)|
+|![Bob starts](Bob%20starts.png)|![game is on](Game%20is%20on.png)|![congrats](Alice%20wins.png)|
 |-|-|-|
 
 and here is the model diagram:
 
 ![](WebWordle.dbquity.svg)
+
+## Exercise: add a keyboard to WebWordle...
 
 The [WebWordle.dbquity](WebWordle.dbquity) file contains the model source, and the sketch of adding a keyboard to the `Game`, which is shown below, showcases both the `case`function and `oncreate`, which is one out of 4 `entity` triggers:
 
@@ -79,4 +81,15 @@ entity Game
                         backgroundcolor: oceanblue,
                         
 ```
+
+## A more elaborate example including web-based dictionary lookup
+
+As an example of a more elaborate featureset including keyboard and using a web-based dictionary to validate words you could see screen shots like
+
+|![whea is not a word](whea%20is%20not%20a%20word.png)|![these](these.png)|
+|-|-|
+
+The 300+ lines of model source is here: [WebWordleDictionary.dbquity](WebWordleDictionary.dbquity).
+
+![Keyboard and Dictionary](WebWordleDictionary.dbquity.svg)
 

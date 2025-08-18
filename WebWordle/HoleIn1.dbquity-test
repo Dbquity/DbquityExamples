@@ -1,0 +1,9 @@
+test HoleIn1
+    deployment: model.dbquity.com/examples:WebWordle
+    on:         Wordle
+    act:        Start()
+    on:         Games.last()
+    assert:     not Guessed
+    act:        set(Guess: TheWord);
+                Submit()
+    assert:     Guessed

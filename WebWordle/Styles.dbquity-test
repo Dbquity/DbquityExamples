@@ -1,0 +1,18 @@
+test Styles
+    deployment: model.dbquity.com/examples:WebWordle
+    on:         Wordle
+    act:        Start()
+    on:         Games.last()
+    act:        set(TheWord: "abcd");   # override "the word" for test purposes
+                set(Guess: "sand");
+                Submit()
+    assert:     not Guessed;
+                Attempts[1].getstyles() = ("B: [Good]"; "D: [Right]")
+    act:        set(Guess: "glad");
+                Submit()
+    assert:     not Guessed;
+                Attempts[2].getstyles() = ("C: [Good]"; "D: [Right]")
+    act:        set(Guess: "abcd");
+                Submit()
+    assert:     Guessed;
+                Attempts[3].getstyles().all(endswith("[Guessed]"))

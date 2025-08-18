@@ -8,6 +8,7 @@ site WebWordle
             default:            "https://dbquity.com"
         integer LetterCount
             input
+            zup
             caption:            Count of letters
             constraint:         . in 4..8
             default:            4
@@ -19,12 +20,13 @@ site WebWordle
                 (if several then "and chose one for you to guess!"
                             else ". Can you guess it?")
             text WebPage
+            integer LetterCount
             integer Occurrences
             integer Distincts
         action OpenRecentGame
             caption:            Join most recent game...
-            guard:              (game: Games.last(Guessed = nil))
-            execution:          game.open()
+            guard:              Games.last(Guessed = nil)
+            execution:          Games.last(Guessed = nil).open()
         action Start
             caption:            Start a new game...
             guard:              WebPage.isurl() and isvalid(LetterCount)
@@ -34,7 +36,7 @@ site WebWordle
                                 if (c: candidates.count()) < 1 then
                                     fail("No"||LetterCount|"-letter word found");
                                 add(Game, TheWord: candidates[random(1, c)],
-                                    About: About(WebPage, words, c))
+                                    About: About(WebPage, LetterCount, words, c))
             autocommit
         function IsQualified
             parameter word
@@ -128,15 +130,15 @@ site WebWordle
                 style Good
                     description:A letter that is from the word,
                                 but is not in the right place
-                    setters:    textcolor:          white,
-                                backgroundcolor:    orange
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "orange"
                 style Right
                     description:A correct letter
                                 in the right place
-                    setters:    textcolor:          white,
-                                backgroundcolor:    green
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "green"
                 style Guessed
                     description:All letters are right :-)
-                    setters:    textcolor:          white,
-                                backgroundcolor:    green,
-                                scale:              1.3
+                    setters:    textcolor:          "white",
+                                backgroundcolor:    "green",
+                                scale:              1.1
