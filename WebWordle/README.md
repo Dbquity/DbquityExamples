@@ -32,7 +32,7 @@ entity Game
         action SetKey
             parameter key
             execution:
-                if key='☑️' then Game.Submit()  // Submit needs to only create a new attempt, if we are not done
+                if key='☑️' then Game.Submit()  # Submit needs to only create a new attempt, if we are not done
                 else if key = '🔙' then (SetLetter(nil); if In>1 then set(In: In - 1))
                 else (SetLetter(key); set(In: if In = 8 then 1 else In + 1))
         action SetLetter
@@ -42,8 +42,8 @@ entity Game
                 else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
                 else if In=7 then set(G:key) else if In=8 then set(H:key)
     oncreate:
-        add(Attempt, In:1); // blank attempt for keying-in
-                            // - btw, do not style the last Attempt, unless we are done!
+        add(Attempt, In:1); # blank attempt for keying-in
+                            # - btw, do not style the last Attempt, unless we are done!
         add(KeyboardRow, a:'q', b:'w', c:'e', d:'r', ...);
         add(KeyboardRow, a:'a', b:'s', ...);
         add(KeyboardRow, a:'☑️', b:'z', ..., i:'🔙')
@@ -67,7 +67,7 @@ entity Game
                     '☑️','🔙': Action,
                     default: NormalKey)
         style NormalKey
-            onclick:    SetKey(.)   // NOTE! onclick: is not yet - release 0.10.8847 of Dbquity - supported
+            onclick:    SetKey(.)
             setters:    textcolor: white,
                         backgroundcolor: gray
         style MiddleRow
