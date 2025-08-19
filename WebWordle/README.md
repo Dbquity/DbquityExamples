@@ -96,5 +96,6 @@ A possible model source attempting that is here: [WebWordleDictionary.dbquity](W
 ### Challenge: localize the keyboard and support more languages
 
 As you may notice, two dictionaries - a US English and a Danish - are supported, but the keyboard is missing the Danish letters Æ, Ø, and Å.
-Can you expand the model such that is supports these letters when the Danish dictionary is selected?
-Can you add dictionaries for more languages?
+
+- Can you expand the model such that it supports Æ, Ø, and Å when the Danish dictionary is selected?
+- Can you add dictionaries for more languages?
