@@ -84,12 +84,17 @@ entity Game
 
 ## A more elaborate example including web-based dictionary lookup
 
-As an example of a more elaborate featureset including keyboard and using a web-based dictionary to validate words you could see screen shots like
+Thinking of a more elaborate featureset including keyboard and web-based dictionary lookup to validate words, you might imagine screen shots like
 
 |![whea is not a word](whea%20is%20not%20a%20word.png)|![these](these.png)|
 |-|-|
 
-The 300+ lines of model source is here: [WebWordleDictionary.dbquity](WebWordleDictionary.dbquity).
+A possible model source attempting that is here: [WebWordleDictionary.dbquity](WebWordleDictionary.dbquity).
 
 ![Keyboard and Dictionary](WebWordleDictionary.dbquity.svg)
 
+### Challenge: localize the keyboard and support more languages
+
+As you may notice, two dictionaries - a US English and a Danish - are supported, but the keyboard is missing the Danish letters Æ, Ø, and Å.
+Can you expand the model such that is supports these letters when the Danish dictionary is selected?
+Can you add dictionaries for more languages?
