@@ -1,6 +1,6 @@
 site WebWordle
     origin:                     model.dbquity.com/examples
-    version:                    0.1.0       
+    version:                    1.0.0       
     area Wordle
         text WebPage
             input
