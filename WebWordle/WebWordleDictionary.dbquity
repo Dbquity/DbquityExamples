@@ -216,7 +216,7 @@ site WebWordle
                     setters:    noheadrow,
                                 nokeycolumn,
                                 header.isvisible:   false,
-                                rowheight:          9 * 32 / Game.LetterCount,
+                                rowheight:          9 * 32 / LetterCount,
                                 horizontaloptions:  "center"
                 integer In
                     input
