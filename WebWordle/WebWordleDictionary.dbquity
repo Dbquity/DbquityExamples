@@ -1,13 +1,16 @@
 site WebWordle
     origin:                     model.dbquity.com/examples
-    version:                    2.0.0
+    version:                    2.0.1
     area Wordle
+        glyph:                  🔠🤔
         entity Dictionary
             description:
                 Den Danske Ordbog;dansk;https://ordnet.dk/ddo/ordbog?query=<word>;id="betydninger"
                 Merriam-Webster;American English;https://www.merriam-webster.com/dictionary/<word>;Definition &amp; Meaning - Merriam-Webster</title>
             importance:         additional
             collection:         Dictionaries
+            title:              Name|"|"|Language
+            subtitle:           LookupUrl
             derived
             text Name
                 scope:          "Den Danske Ordbog"; "Merriam-Webster"
@@ -83,7 +86,8 @@ site WebWordle
                                     fail("No"||LetterCount|"-letter word found");
                                 add(Game, TheWord: word.uppercase(),
                                     Dictionary: GameDictionary,
-                                    About: About(WebPage, LetterCount, words, c))
+                                    About: About(WebPage, LetterCount, words, c));
+                                OpenRecentGame()
             autocommit
         function IsQualified
             parameter word
@@ -129,7 +133,10 @@ site WebWordle
                 expression:     if Guessed then Attempts.last().by
             constraint:         "Game over! You didn't guess the"||LetterCount||"letter word from"||
                                 About.WebPage ~ Guessed <> false
+            text WebPage
+                expression:     About.WebPage
             link Dictionary
+                offlist
             About About
                 hidden
             instruction:
