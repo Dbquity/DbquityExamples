@@ -9,9 +9,9 @@ Here are a few screen shots:
 
 and here is the model diagram:
 
-![](WebWordle.dbquity.svg)
+![WebWordle v1 diagram](WebWordle.dbquity.svg)
 
-## Exercise: add a keyboard to WebWordle...
+## Exercise: add a keyboard to WebWordle
 
 The [WebWordle.dbquity](WebWordle.dbquity) file contains the model source, and the sketch of adding a keyboard to the `Game`, which is shown below, showcases both the `case`function and `oncreate`, which is one out of 4 `entity` triggers:
 
@@ -89,9 +89,9 @@ Thinking of a more elaborate featureset including keyboard and web-based diction
 |![whea is not a word](whea%20is%20not%20a%20word.png)|![these](these.png)|
 |-|-|
 
-A possible model source attempting that is here: [WebWordleDictionary.dbquity](WebWordleDictionary.dbquity).
+A possible model source attempting that is here: [Dictionary/WebWordle.dbquity](Dictionary/WebWordle.dbquity).
 
-![Keyboard and Dictionary](WebWordleDictionary.dbquity.svg)
+![Keyboard and Dictionary](Dictionary/WebWordle.dbquity.svg)
 
 ### Challenge: localize the keyboard and support more languages
 
