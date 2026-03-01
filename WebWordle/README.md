@@ -97,5 +97,5 @@ A possible model source attempting that is here: [Dictionary/WebWordle.dbquity](
 
 As you may notice, two dictionaries - a US English and a Danish - are supported, but the keyboard is missing the Danish letters Æ, Ø, and Å.
 
-- Can you expand the model such that it supports Æ, Ø, and Å when the Danish dictionary is selected?
+- Can you expand the model such that it supports entry of Æ, Ø, and Å when the Danish dictionary is selected?
 - Can you add dictionaries for more languages?
