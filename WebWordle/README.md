@@ -86,7 +86,7 @@ entity Game
 
 Thinking of a more elaborate featureset including keyboard and web-based dictionary lookup to validate words, you might imagine screen shots like
 
-|![whea is not a word](whea%20is%20not%20a%20word.png)|![these](these.png)|
+|![whea is not a word](Dictionary/whea%20is%20not%20a%20word.png)|![these](Dictionary/these.png)|
 |-|-|
 
 A possible model source attempting that is here: [Dictionary/WebWordle.dbquity](Dictionary/WebWordle.dbquity).
