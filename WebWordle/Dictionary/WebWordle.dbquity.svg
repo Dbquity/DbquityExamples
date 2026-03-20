@@ -8,14 +8,14 @@
  viewBox="0.00 0.00 971.00 748.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 744)">
 <polygon fill="white" stroke="none" points="-4,4 -4,-744 967,-744 967,4 -4,4"/>
-<text text-anchor="start" x="246" y="-10.5" font-family="Arial" font-size="10.00">Dbquity CLI v0.90.2</text>
-<text text-anchor="start" x="336" y="-10.5" font-family="Arial" font-size="10.00"> &#160;&#160;&#160;dot WebWordle * &#45;filter::WebWordle\ &#45;r &#45;d +m &#45;s &#45;x &#45;z &#160;&#160;&#160;</text>
-<text text-anchor="start" x="595.5" y="-10.5" font-family="Arial" font-size="10.00">2026&#45;03&#45;01 10:18:05 +01:00</text>
+<text text-anchor="start" x="246" y="-10.5" font-family="Arial" font-size="10.00">Dbquity CLI v0.90.7</text>
+<text text-anchor="start" x="336" y="-10.5" font-family="Arial" font-size="10.00"> &#160;&#160;&#160;dot WebWordle * &#45;filter::WebWordle\ &#45;r &#45;d +m &#45;x &#45;s &#45;z &#160;&#160;&#160;</text>
+<text text-anchor="start" x="595.5" y="-10.5" font-family="Arial" font-size="10.00">2026&#45;03&#45;20 13:46:26 +01:00</text>
 <g id="clust1" class="cluster">
 <title>cluster_18_WebWordle</title>
 <g id="a_clust1"><a xlink:href="WebWordle.dbquity" xlink:title="model.dbquity.com/examples:WebWordle &#45;&gt; WebWordle.dbquity" target="_parent">
 <polygon fill="none" stroke="black" points="8,-36 8,-732 955,-732 955,-36 8,-36"/>
-<text text-anchor="middle" x="481.5" y="-718.5" font-family="Arial" font-size="10.00">site model.dbquity.com/examples:WebWordle v2.0.1</text>
+<text text-anchor="middle" x="481.5" y="-718.5" font-family="Arial" font-size="10.00">site model.dbquity.com/examples:WebWordle v2.0.0</text>
 </a>
 </g>
 </g>

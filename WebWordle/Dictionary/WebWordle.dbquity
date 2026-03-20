@@ -1,6 +1,6 @@
 site WebWordle
     origin:                     model.dbquity.com/examples
-    version:                    2.0.1
+    version:                    2.0.0
     area Wordle
         glyph:                  🔠🤔
         entity Dictionary
@@ -111,8 +111,7 @@ site WebWordle
                 hidden
                 expression:     TheWord.length()
             text Played
-                expression:     created|".."//
-                                if Guessed = nil then now() else Attempts.last().created
+                expression:     created|".."//Attempts.last().created
             function GuessIsValid
                 expression:     if (g: Attempts.draft().title).length() = LetterCount then
                                     g.all(. in (ATOZ? 'A'..'Z'))
