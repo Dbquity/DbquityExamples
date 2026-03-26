@@ -194,7 +194,7 @@ site WebWordle
                                 ) where letters:Game.LetterCount
                 style WidthAlignment
                     description:Aligns width of attempts with width of keyboard
-                    setters:    widthrequest:       9 * 32 / Game.LetterCount,
+                    setters:    widthrequest:       8 * 32 / Game.LetterCount,
                                 backgroundcolor:    "white"
                 style Bad
                     description:Enough letters but not a word
@@ -222,7 +222,7 @@ site WebWordle
                     setters:    noheadrow,
                                 nokeycolumn,
                                 header.isvisible:   false,
-                                rowheight:          9 * 32 / LetterCount,
+                                rowheight:          8 * 32 / LetterCount,
                                 horizontaloptions:  "center"
                 integer In
                     input
@@ -277,11 +277,11 @@ site WebWordle
                 function GetStyle
                     parameter key
                     expression:
-                        case(key,
+                        (Key; case(key,
                             'A','S','D','F','G','H','J','K','L': (MiddleRow; GoodOrBad(key)),
                             '!','<','>': Action,
                             nil: Hidden,
-                            default: (NormalKey; GoodOrBad(key)))
+                            default: GoodOrBad(key)))
                 function GoodOrBad
                     parameter key
                     expression:
@@ -291,19 +291,16 @@ site WebWordle
                     setters:    backgroundcolor:    "green"
                 style Bad
                     setters:    textcolor:          "darkgray"
-                style NormalKey
+                style Key
                     onclick:    SetKey(.)
                     setters:    textcolor:          "white",
+                                widthrequest:       30,
+                                heightrequest:      30,
                                 backgroundcolor:    "gray"
                 style MiddleRow
-                    onclick:    SetKey(.)
-                    setters:    textcolor:          "white",
-                                backgroundcolor:    "gray",
-                                translationx:       18
+                    setters:    translationx:       18
                 style Action
-                    onclick:    SetKey(.)
-                    setters:    textcolor:          "white",
-                                backgroundcolor:    "blue"
+                    setters:    backgroundcolor:    "blue"
                 style Hidden
                     setters:    isvisible:          false
                 style ThreeRowsBareGrid
