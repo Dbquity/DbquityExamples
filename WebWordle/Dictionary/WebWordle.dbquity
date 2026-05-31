@@ -55,17 +55,6 @@ site WebWordle
             input
             zup
             default:            Wordle.get(Dictionary: "Merriam-Webster")
-        class About
-            title:
-                "Out of"||Occurrences||"word occurrences we found"||Distincts||
-                "distinct word"|(if (several: Distincts > 1) then 's')||
-                "of"||LetterCount||"letters on"||WebPage||
-                (if several then "and chose one for you to guess!"
-                            else ". Can you guess it?")
-            text WebPage
-            integer LetterCount
-            integer Occurrences
-            integer Distincts
         action OpenRecentGame
             caption:            Join most recent game...
             guard:              Games.last(Guessed = nil)
@@ -89,7 +78,13 @@ site WebWordle
                                     fail("No"||LetterCount|"-letter word found");
                                 add(Game, TheWord: word.uppercase(),
                                     Dictionary: GameDictionary,
-                                    About: About(WebPage, LetterCount, words, c));
+                                    About: 
+                                        "Out of"||words||"word occurrences we found"||c||
+                                        "distinct word"|(if (several: c > 1) then 's')||
+                                        "of"||LetterCount||"letters on"||WebPage||
+                                        (if several then "and chose one for you to guess!"
+                                                    else ". Can you guess it?"),
+                                    WebPage: WebPage);
                                 OpenRecentGame()
             autocommit
         function IsQualified
@@ -99,6 +94,7 @@ site WebWordle
             collection:         Games
             readonly
             title:              identity
+            subtitle:           WebPage|"|"|created|"|"|AttemptCount
             integer AttemptsAllowed
                 hidden
                 expression:     usercount * (LetterCount - 1) + LetterCount
@@ -114,6 +110,7 @@ site WebWordle
                 hidden
                 expression:     TheWord.length()
             text Played
+                offcard
                 expression:     created|".."//Attempts.last().created
             function GuessIsValid
                 expression:     if (g: Attempts.draft().title).length() = LetterCount then
@@ -134,16 +131,17 @@ site WebWordle
                 hidden:         Guessed <> true
                 expression:     if Guessed then Attempts.last().by
             constraint:         "Game over! You didn't guess the"||LetterCount||"letter word from"||
-                                About.WebPage ~ Guessed <> false
+                                WebPage ~ Guessed <> false
             text WebPage
-                expression:     About.WebPage
+                url
+                hidden
             link Dictionary
                 offlist
-            About About
+            text About
                 hidden
             instruction:
                 if Guessed then
-                    "Congratulations!"||By||"guessed '"|TheWord|"' from"||About.WebPage||
+                    "Congratulations!"||By||"guessed '"|TheWord|"' from"||WebPage||
                     "in attempt number"||(a:Attempts.count())|
                     (if a < 3 then "!!" else if a < 5 then "!")
                 else if Guessed = nil then
@@ -183,7 +181,7 @@ site WebWordle
                 function GetStyle
                     parameter Letter
                     parameter Index
-                    expression: if Index <= letters then (
+                    expression: if Index <= Game.LetterCount then (
                                     WidthAlignment;
                                     if issaved then (
                                         if title = (theWord:Game.TheWord) then Guessed
@@ -194,7 +192,7 @@ site WebWordle
                                         (if IsAWord = false then Bad);
                                         if In = Index then Focus
                                     )
-                                ) where letters:Game.LetterCount
+                                )
                 style WidthAlignment
                     description:Aligns width of attempts with width of keyboard
                     setters:    widthrequest:       8 * 32 / Game.LetterCount,
@@ -231,28 +229,30 @@ site WebWordle
                     input
                     hidden
                     default:    1
-                action SetKey
-                    parameter key
-                    guard:      isdraft and Game.Guessed = nil
+                action Submit
+                    hidden
                     execution:
-                        if key = '!' then (
+                        if isdraft and Game.Guessed = nil then
                             if title.length() = Game.LetterCount then
                                 if IsAWord then Game.Submit()
-                        ) else if key = '<' then
+                action GoLeft
+                    hidden
+                    execution:
+                        if isdraft and Game.Guessed = nil then
                             set(In: if In = 1 then Game.LetterCount else In - 1)
-                        else if key = '>' then
+                action GoRight
+                    hidden
+                    execution:
+                        if isdraft and Game.Guessed = nil then
                             set(In: if In = Game.LetterCount then 1 else In + 1)
-                        else if In <= Game.LetterCount then (
-                            SetLetter(key);
-                            set(In: if In = Game.LetterCount then 1 else In + 1))
                 action SetLetter
                     parameter key
                     execution:
                         if In=1 then set(A:key) else if In=2 then set(B:key) else if In=3 then set(C:key)
                         else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
                         else if In=7 then set(G:key) else if In=8 then set(H:key);
-                        set(IsAWord: Game.Dictionary.Contains(@title.lowercase()))
-
+                        set(IsAWord: Game.Dictionary.Contains(@title.lowercase()),
+                            In: if In = Game.LetterCount then 1 else In + 1)
             oncreate:
                 add(KeyboardRow, a:'Q', b:'W', c:'E', d:'R', e:'T', f:'Y', g:'U', h:'I', i:'O', j:'P');
                 add(KeyboardRow, a:'A', b:'S', c:'D', d:'F', e:'G', f:'H', g:'J', h:'K', i:'L');
@@ -271,9 +271,6 @@ site WebWordle
                 character h
                 character i
                 character j
-                action SetKey
-                    parameter key
-                    execution:  if (draft: Game.Attempts.draft()) then draft.SetKey(key)
                 styling:        a: GetStyle(a), b: GetStyle(b), c:GetStyle(c), d:GetStyle(d),
                                 e: GetStyle(e), f: GetStyle(f), g:GetStyle(g), h:GetStyle(h),
                                 i: GetStyle(i), j: GetStyle(j), $grid: ThreeRowsBareGrid
@@ -281,10 +278,9 @@ site WebWordle
                     parameter key
                     expression:
                         (Key; case(key,
-                            'A','S','D','F','G','H','J','K','L': (MiddleRow; GoodOrBad(key)),
-                            '!','<','>': Action,
-                            nil: Hidden,
-                            default: GoodOrBad(key)))
+                            '!': Submit, '<': GoLeft, '>': GoRight, nil: Hidden,
+                            'A','S','D','F','G','H','J','K','L': (MiddleRow; GoodOrBad(key); Letter),
+                            default: (GoodOrBad(key); Letter)))
                 function GoodOrBad
                     parameter key
                     expression:
@@ -295,14 +291,23 @@ site WebWordle
                 style Bad
                     setters:    textcolor:          "darkgray"
                 style Key
-                    onclick:    SetKey(.)
                     setters:    textcolor:          "white",
                                 widthrequest:       30,
                                 heightrequest:      30,
                                 backgroundcolor:    "gray"
                 style MiddleRow
                     setters:    translationx:       18
-                style Action
+                style Letter
+                    onclick:    if (d: Game.Attempts.draft()) then
+                                    (letter: .; d.SetLetter(letter))
+                style GoLeft
+                    onclick:    if (d: Game.Attempts.draft()) then d.GoLeft()
+                    setters:    backgroundcolor:    "blue"
+                style GoRight
+                    onclick:    if (d: Game.Attempts.draft()) then d.GoRight()
+                    setters:    backgroundcolor:    "blue"
+                style Submit
+                    onclick:    if (d: Game.Attempts.draft()) then d.Submit()
                     setters:    backgroundcolor:    "blue"
                 style Hidden
                     setters:    isvisible:          false
