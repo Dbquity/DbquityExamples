@@ -2,7 +2,7 @@ site WebWordle
     origin:                     model.dbquity.com/examples
     version:                    2.0.0
     area Wordle
-        glyph:                  🔠🤔
+        glyph:                  "🔠🤔"
         entity Dictionary
             description:
                 Den Danske Ordbog;dansk;https://ordnet.dk/ddo/ordbog?query=<word>;id="betydninger"
@@ -73,11 +73,14 @@ site WebWordle
         action Start
             caption:            Start a new game...
             guard:              WebPage.isurl() and isvalid(LetterCount)
-            execution:          candidates: WebPage.download().aswords().where(IsQualified(.));
+            execution:          progress("downloading"||WebPage);
+                                candidates: WebPage.download().aswords().where(IsQualified(.));
                                 words: candidates.count();
                                 candidates: candidates.where(length() = LetterCount).distinct();
+                                progress("choosing from"||(c: candidates.count())||"distinct"||
+                                    LetterCount|"-letter candidate words");
                                 word: nil; a: 0;
-                                while a < (c? candidates.count()) and not word do (
+                                while a < c and not word do (
                                     a: a+1;
                                     w: candidates[random(1, c)];
                                     if GameDictionary.Contains(w) then word: w
