@@ -198,7 +198,7 @@ site WebWordle
                                 )
                 style WidthAlignment
                     description:Aligns width of attempts with width of keyboard
-                    setters:    widthrequest:       8 * 32 / Game.LetterCount,
+                    setters:    widthrequest:       240 / Game.LetterCount,
                                 backgroundcolor:    "white"
                 style Bad
                     description:Enough letters but not a word
@@ -226,7 +226,7 @@ site WebWordle
                     setters:    noheadrow,
                                 nokeycolumn,
                                 header.isvisible:   false,
-                                rowheight:          8 * 32 / LetterCount,
+                                rowheight:          240 / LetterCount,
                                 horizontaloptions:  "center"
                 integer In
                     input
