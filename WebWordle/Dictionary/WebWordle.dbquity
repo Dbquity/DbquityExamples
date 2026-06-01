@@ -63,8 +63,11 @@ site WebWordle
             caption:            Start a new game...
             guard:              WebPage.isurl() and isvalid(LetterCount)
             execution:          progress("downloading"||WebPage);
-                                candidates: WebPage.download().aswords().where(IsQualified(.));
+                                content: WebPage.download();
+                                progress("collecting words");
+                                candidates: content.aswords().where(IsQualified(.));
                                 words: candidates.count();
+                                progress("finding"||LetterCount|"-letter words among"||words||"candidates");
                                 candidates: candidates.where(length() = LetterCount).distinct();
                                 progress("choosing from"||(c: candidates.count())||"distinct"||
                                     LetterCount|"-letter candidate words");
@@ -94,7 +97,7 @@ site WebWordle
             collection:         Games
             readonly
             title:              identity
-            subtitle:           WebPage|"|"|created|"|"|AttemptCount
+            subtitle:           WebPage|"|"|created|"|"|AttemptCount||"of"||AttemptsAllowed
             integer AttemptsAllowed
                 hidden
                 expression:     usercount * (LetterCount - 1) + LetterCount
@@ -130,7 +133,7 @@ site WebWordle
                 caption:        Guessed by
                 hidden:         Guessed <> true
                 expression:     if Guessed then Attempts.last().by
-            constraint:         "Game over! You didn't guess the"||LetterCount||"letter word from"||
+            constraint:         "Game over! You didn't guess the"||LetterCount|"-letter word from"||
                                 WebPage ~ Guessed <> false
             text WebPage
                 url
