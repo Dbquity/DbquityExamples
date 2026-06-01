@@ -251,9 +251,9 @@ site WebWordle
                 action SetLetter
                     parameter key
                     execution:
-                        if In=1 then set(A:key) else if In=2 then set(B:key) else if In=3 then set(C:key)
-                        else if In=4 then set(D:key) else if In=5 then set(E:key) else if In=6 then set(F:key)
-                        else if In=7 then set(G:key) else if In=8 then set(H:key);
+                        case In of
+                            1:set(A:key), 2:set(B:key), 3:set(C:key), 4:set(D:key),
+                            5:set(E:key), 6:set(F:key), 7:set(G:key), 8:set(H:key);
                         set(IsAWord: Game.Dictionary.Contains(@title.lowercase()),
                             In: if In = Game.LetterCount then 1 else In + 1)
             oncreate:
