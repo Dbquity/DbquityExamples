@@ -4,41 +4,38 @@ site WebWordle
     area Wordle
         glyph:                  "🔠🤔"
         entity Dictionary
-            description:
-                Den Danske Ordbog;dansk;https://ordnet.dk/ddo/ordbog?query=<word>;id="betydninger"
-                Merriam-Webster;American English;https://www.merriam-webster.com/dictionary/<word>;Definition &amp; Meaning - Merriam-Webster</title>
             importance:         additional
             collection:         Dictionaries
             title:              Name|"|"|Language
             subtitle:           LookupUrl
             derived
             text Name
-                scope:          "Den Danske Ordbog"; "Merriam-Webster"
+                scope:          "Den Danske Ordbog"; "Dictionary"
             identity:           Name
             text Language
                 default:
                     case(Name, "Den Danske Ordbog": "dansk",
-                        "Merriam-Webster": "American English")
+                        "Dictionary": "English")
             text LookupUrl
                 importance:     additional
                 default:        
                     case(Name,
                         "Den Danske Ordbog":
                             "https://ordnet.dk/ddo/ordbog?query=<word>",
-                        "Merriam-Webster":
-                            "https://www.merriam-webster.com/dictionary/<word>")
+                        "Dictionary":
+                            "https://www.dictionary.com/browse/<word>")
             text FoundFragment
                 importance:     additional
                 default:
                     case(Name,
                         "Den Danske Ordbog":
-                            "id="|'"'|"betydninger"|'"',
-                        "Merriam-Webster":
-                            "Definition &amp; Meaning - Merriam-Webster</title>")
+                            "<title><word> &mdash; Den Danske Ordbog</title>",
+                        "Dictionary":
+                            "<WORD> Definition &amp; Meaning | Dictionary.com</title>")
             function Contains
                 parameter word
-                expression:     LookupUrl.replace("<word>", word).download().
-                                contains(FoundFragment.replace("<word>", word))
+                expression:     LookupUrl.replace("<word>", word).download().contains(
+                                    FoundFragment.replace("<word>", word).replace("<WORD>", word.uppercase()))
         text WebPage
             input
             zup
@@ -54,7 +51,7 @@ site WebWordle
             entity:             Dictionary
             input
             zup
-            default:            Wordle.get(Dictionary: "Merriam-Webster")
+            default:            Wordle.get(Dictionary: "Dictionary")
         action OpenRecentGame
             caption:            Join most recent game...
             guard:              Games.last(Guessed = nil)
@@ -295,8 +292,8 @@ site WebWordle
                     setters:    textcolor:          "darkgray"
                 style Key
                     setters:    textcolor:          "white",
-                                widthrequest:       30,
-                                heightrequest:      30,
+                                widthrequest:       28,
+                                heightrequest:      28,
                                 backgroundcolor:    "gray"
                 style MiddleRow
                     setters:    translationx:       18
