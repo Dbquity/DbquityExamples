@@ -10,12 +10,12 @@ site WebWordle
             subtitle:           LookupUrl
             derived
             text Name
-                scope:          "Den Danske Ordbog"; "Dictionary"
+                scope:          "Den Danske Ordbog"; "Cambridge Dictionary"
             identity:           Name
             text Language
                 default:
                     case(Name, "Den Danske Ordbog": "dansk",
-                        "Dictionary": "English")
+                        "Cambridge Dictionary": "English")
             text LookupUrl
                 importance:     additional
                 default:        
@@ -23,7 +23,7 @@ site WebWordle
                         "Den Danske Ordbog":
                             "https://ordnet.dk/ddo/ordbog?query=<word>",
                         "Dictionary":
-                            "https://www.dictionary.com/browse/<word>")
+                            "https://dictionary.cambridge.org/dictionary/english/<word>")
             text FoundFragment
                 importance:     additional
                 default:
@@ -31,7 +31,7 @@ site WebWordle
                         "Den Danske Ordbog":
                             "<title><word> &mdash; Den Danske Ordbog</title>",
                         "Dictionary":
-                            "<WORD> Definition &amp; Meaning | Dictionary.com</title>")
+                            " | English meaning - Cambridge Dictionary</title>")
             function Contains
                 parameter word
                 expression:     LookupUrl.replace("<word>", word).download().contains(
@@ -51,7 +51,7 @@ site WebWordle
             entity:             Dictionary
             input
             zup
-            default:            Wordle.get(Dictionary: "Dictionary")
+            default:            Wordle.get(Dictionary: "Cambridge Dictionary")
         action OpenRecentGame
             caption:            Join most recent game...
             guard:              Games.last(Guessed = nil)
@@ -277,10 +277,11 @@ site WebWordle
                 function GetStyle
                     parameter key
                     expression:
-                        (Key; case(key,
-                            '!': Submit, '<': GoLeft, '>': GoRight, nil: Hidden,
+                        if key then (Key; case(key,
+                            '!': Submit, '<': GoLeft, '>': GoRight,
                             'A','S','D','F','G','H','J','K','L': (MiddleRow; GoodOrBad(key); Letter),
                             default: (GoodOrBad(key); Letter)))
+                        else Hidden
                 function GoodOrBad
                     parameter key
                     expression:
