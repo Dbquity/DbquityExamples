@@ -3,35 +3,25 @@ site WebWordle
     version:                    2.1.0
     area Wordle
         glyph:                  "🔠🤔"
+        oncreate:
+            add(Dictionary: "Den Danske Ordbog", Language: "dansk",
+                LookupUrl: "https://ordnet.dk/ddo/ordbog?query=<word>",
+                FoundFragment: "<title><word> &mdash; Den Danske Ordbog</title>");
+            add(Dictionary: "Cambridge Dictionary", Language: "English",
+                LookupUrl: "https://dictionary.cambridge.org/dictionary/english/<word>",
+                FoundFragment: " | English meaning - Cambridge Dictionary</title>")
         entity Dictionary
             importance:         additional
             collection:         Dictionaries
             title:              Name|"|"|Language
             subtitle:           LookupUrl
-            derived
             text Name
-                scope:          "Den Danske Ordbog"; "Cambridge Dictionary"
             identity:           Name
             text Language
-                default:
-                    case(Name, "Den Danske Ordbog": "dansk",
-                        "Cambridge Dictionary": "English")
             text LookupUrl
                 importance:     additional
-                default:        
-                    case(Name,
-                        "Den Danske Ordbog":
-                            "https://ordnet.dk/ddo/ordbog?query=<word>",
-                        "Dictionary":
-                            "https://dictionary.cambridge.org/dictionary/english/<word>")
             text FoundFragment
                 importance:     additional
-                default:
-                    case(Name,
-                        "Den Danske Ordbog":
-                            "<title><word> &mdash; Den Danske Ordbog</title>",
-                        "Dictionary":
-                            " | English meaning - Cambridge Dictionary</title>")
             function Contains
                 parameter word
                 expression:     LookupUrl.replace("<word>", word).download().contains(
