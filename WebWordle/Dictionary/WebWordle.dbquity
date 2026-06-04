@@ -6,7 +6,7 @@ site WebWordle
         oncreate:
             add(Dictionary: "Den Danske Ordbog", Language: "dansk",
                 LookupUrl: "https://ordnet.dk/ddo/ordbog?query=<word>",
-                FoundFragment: "<title><word> &mdash; Den Danske Ordbog</title>");
+                FoundFragment: "id="|'"'|"betydninger"|'"');
             add(Dictionary: "Cambridge Dictionary", Language: "English",
                 LookupUrl: "https://dictionary.cambridge.org/dictionary/english/<word>",
                 FoundFragment: " | English meaning - Cambridge Dictionary</title>")
