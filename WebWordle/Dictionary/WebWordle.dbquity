@@ -50,7 +50,7 @@ site WebWordle
             execution:          progress("downloading"||WebPage);
                                 content: WebPage.download();
                                 progress("collecting words");
-                                candidates: content.aswords().where(IsQualified(.));
+                                candidates: content.aswordsofletters().where(IsQualified(.));
                                 words: candidates.count();
                                 progress("finding"||LetterCount|"-letter words among"||words||"candidates");
                                 candidates: candidates.where(length() = LetterCount).distinct();
